@@ -72,6 +72,8 @@ function! s:Kwbd(kwbdStage)
 endfunction
 
 command! Kwbd call <SID>Kwbd(1)
+command! KwbdSafe call <SID>KwbdSafe()
+
 noremap <silent> <Plug>Kwbd  :call <SID>KwbdSafe()<CR>:<BS>
 noremap <silent> <Plug>KwbdForce  :call <SID>KwbdForce()<CR>:<BS>
 "nnoremap <silent> <Plug>Kwbd :<C-u>Kwbd<CR>

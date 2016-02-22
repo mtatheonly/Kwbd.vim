@@ -1,5 +1,19 @@
 "here is a more exotic version of my original Kwbd script
 "delete the buffer; keep windows; create a scratch buffer if no buffers left
+function! s:KwbdSafe()
+  let g:kwbdBufNum = bufnr("%")
+  if getbufvar(g:kwbdBufNum, '&modified')
+    echoerr 'No write since last change for buffer '.bufname('%')
+    return
+  endif
+
+  call <SID>Kwbd(1)
+endfunction
+
+function! <SID>KwbdForce()
+  call <SID>Kwbd(1)
+endfunction
+
 function! s:Kwbd(kwbdStage)
   if(a:kwbdStage == 1)
     if(!buflisted(winbufnr(0)))
@@ -58,4 +72,6 @@ function! s:Kwbd(kwbdStage)
 endfunction
 
 command! Kwbd call <SID>Kwbd(1)
-nnoremap <silent> <Plug>Kwbd :<C-u>Kwbd<CR>
+noremap <unique> <script> <Plug>Kwbd  :call <SID>KwbdSafe()<CR>:<BS>
+noremap <unique> <script> <Plug>KwbdForce  :call <SID>KwbdForce()<CR>:<BS>
+"nnoremap <silent> <Plug>Kwbd :<C-u>Kwbd<CR>
